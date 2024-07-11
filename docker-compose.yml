@@ -1,0 +1,66 @@
+version: "3"
+services:
+    app_convicti:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: always
+        tty: true
+        expose:
+          - "9000"
+        ports:
+            - "5173:5173"
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+            - ./.docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        container_name: app_convicti
+        networks:
+            - app-network-convicti
+
+    webserver:
+        image: nginx:alpine
+        container_name: webserver
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "8080:80"
+        volumes:
+            - ./:/var/www
+            - ./.docker/nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - app-network-convicti
+
+    convicti_db:
+        image: mysql:8.1
+        ports:
+            - 33088:3306
+        environment:
+            MYSQL_DATABASE: convicti_db
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_PASSWORD: root
+        volumes:
+            - ./.docker/mysql_local:/var/lib/mysql
+        container_name: convicti_db
+        restart: always
+        networks:
+            - app-network-convicti
+
+    convicti_test_db:
+        image: mysql:8.1
+        ports:
+            - 33089:3306
+        environment:
+            MYSQL_DATABASE: convicti_test_db
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_PASSWORD: root
+        volumes:
+            - ./.docker/test_mysql:/var/lib/mysql
+        container_name: convicti_test_db
+        restart: always
+        networks:
+            - app-network-convicti
+
+networks:
+    app-network-convicti:
+        driver: bridge
