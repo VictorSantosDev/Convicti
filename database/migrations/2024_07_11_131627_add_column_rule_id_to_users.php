@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedBigInteger('rule_id')->after('id');
+            $table->index('rule_id');
             $table->foreign('rule_id')->references('id')->on('rules');
         });
     }

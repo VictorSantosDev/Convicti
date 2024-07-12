@@ -17,6 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('permission_id');
             $table->timestamps();
             $table->index('id');
+            $table->index('rule_id');
+            $table->index('permission_id');
 
             $table->foreign('rule_id')->references('id')->on('rules');
             $table->foreign('permission_id')->references('id')->on('permissions');

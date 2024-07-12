@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('longitude', 30);
             $table->timestamps();
             $table->index('id');
+            $table->index('board_id');
 
             $table->foreign('board_id')->references('id')->on('board');
         });

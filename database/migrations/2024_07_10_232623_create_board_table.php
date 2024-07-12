@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name_board', 100);
             $table->timestamps();
             $table->index('id');
+            $table->index('user_id');
 
             $table->foreign('user_id')->references('id')->on('users');
         });

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedBigInteger('point_of_sale_id')->nullable()->after('rule_id');
+            $table->index('point_of_sale_id');
             $table->foreign('point_of_sale_id')->references('id')->on('point_of_sale');
         });
     }

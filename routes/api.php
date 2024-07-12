@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Sale\SaleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,13 +18,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
-        Route::post('login', [AuthController::class, 'loginAction'])->name('login');
-        Route::post('logout', [AuthController::class, 'logoutAction'])->name('logout');
-        Route::middleware('auth:api')->post('refresh', [AuthController::class, 'refreshAction'])->name('refresh');
-        Route::middleware('auth:api')->post('me', [AuthController::class, 'meAction'])->name('me');
+        Route::post('/login', [AuthController::class, 'loginAction'])->name('login');
+        Route::post('/logout', [AuthController::class, 'logoutAction'])->name('logout');
+        Route::middleware('auth:api')->post('/refresh', [AuthController::class, 'refreshAction'])->name('refresh');
+        Route::middleware('auth:api')->post('/me', [AuthController::class, 'meAction'])->name('me');
     });
-});
 
-Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
-    
+    Route::prefix('sale')->middleware('auth')->group(function () {
+        Route::post('/create', [SaleController::class, 'createAction'])->name('create-sale');
+    });
 });

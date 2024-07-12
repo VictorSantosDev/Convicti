@@ -43,11 +43,13 @@ class AuthService
         );
 
         $permissions = $this->rulesServices->findAllRulesWithPermissions($user->getRuleId());
+        $rule = $this->rulesServices->findByRule($user->getRuleId());
 
         return array_merge(
             $user->jsonSerialize(), 
             [
-                'permissions' => $permissions
+                'permissions' => $permissions,
+                'rule' => $rule->getType(),
             ]
         );
     }
@@ -69,11 +71,14 @@ class AuthService
             Id::set($user->rule_id)
         );
 
+        $rule = $this->rulesServices->findByRule(Id::set($user->rule_id));
+
         return [
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
-            'permissions' => $permissions
+            'permissions' => $permissions,
+            'rule' => $rule->getType(),
         ];
     }
 }

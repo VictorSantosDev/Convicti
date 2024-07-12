@@ -3,14 +3,16 @@
 namespace App\Infrastructure\Repository\Rules;
 
 use App\Domain\Permissions\Factories\Factory\PermissionFactory;
+use App\Domain\Rules\Entity\Rule;
+use App\Domain\Rules\Factories\Factory\RuleFactory;
 use App\Domain\Rules\Infrastructure\Repository\RulesRepositoryInterface;
 use App\Models\Rules as RulesModel;
 use App\ValuesObjects\Id;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class RulesRepository implements RulesRepositoryInterface
 {
-    /** @var \Illuminate\Database\Eloquent\Builder $db */
     public function __construct(private RulesModel $db) {}
 
     public function findRuleWithPermissions(Id $id): array
@@ -37,5 +39,23 @@ class RulesRepository implements RulesRepositoryInterface
         });
 
         return $data->toArray();
+    }
+
+    public function findByRule(Id $id): Rule
+    {
+        $row = $this->db::where('id', $id->get())->first();
+
+        if (!$row) {
+            throw new Exception('Função não encontrada');
+        }
+
+        $ruleFactory = new RuleFactory;
+        
+        return $ruleFactory->getRule(
+            $row->id,
+            $row->type,
+            $row->created_at?->format('Y-m-d H:i:s'),
+            $row->updated_at?->format('Y-m-d H:i:s')
+        );
     }
 }

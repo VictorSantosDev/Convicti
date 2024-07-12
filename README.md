@@ -5,6 +5,8 @@
 ```bash
 ## Dependendo da verão do docker instalado utilize o "docker compose" sem traço
 
+# ******Criação******
+
 # construção e inicialização
 - docker-compose up -d
 
@@ -20,10 +22,15 @@
 # permissão ncessária para desenvolvimento local
 - docker exec -it --user=root app_convicti chmod -R 777 /var/www
 
-#seed
+# ******Semar******
 
 # semear tabelas no banco de dados relacional
 - docker-compose exec app_convicti php artisan db:seed
+
+# ******Testes******
+
+# crie a tabelas do banco de testing usando o comando abaixo
+- docker-compose exec app_convicti php artisan migrate --env=testing
 
 ```
 
@@ -53,5 +60,4 @@ Para rodar o projeto na máquina sem o uso de docker você precisa baixar as dep
     - victor_santos1162@hotmail.com
     - Desenvolvedor Back-End
 
-```# Convicti
-# Convicti
+```
