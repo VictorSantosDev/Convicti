@@ -60,12 +60,12 @@ class PointOfSale implements JsonSerializable
     {
         return [
             'id' => $this->getId()->get(),
-            'boardId' => $this->getBoardId(),
+            'boardId' => $this->getBoardId()->get(),
             'name' => $this->getName(),
             'latitude' => $this->getLatitude(),
             'longitude' => $this->getLongitude(),
-            'createdAt' => $this->getCreatedAt()->toDataBase(),
-            'updatedAt' => $this->getUpdatedAt()->toDataBase(),
+            'createdAt' => $this->getCreatedAt()->toDateBase(),
+            'updatedAt' => $this->getUpdatedAt()->toDateBase(),
         ];
     }
 }

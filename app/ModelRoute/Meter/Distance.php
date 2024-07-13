@@ -25,7 +25,7 @@ class Distance
 
         $distance *= 6371;
 
-        return number_format($distance, 2, '.', '');
+        return number_format($distance, 3, '.', '');
     }
 
     static private function convertRadians(string $latOrLon): float

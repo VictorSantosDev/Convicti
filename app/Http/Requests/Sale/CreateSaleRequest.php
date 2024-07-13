@@ -42,7 +42,7 @@ class CreateSaleRequest extends FormRequest
         return [
             'required' => 'O campo :attribute é obrigatório',
             'date' => 'O campo :attribute está com formato de data inválido',
-            'data.after' => 'O campo :attribute não pode ter uma data inferior a data atual',
+            'date.after' => 'O campo :attribute não pode ter uma data inferior a data atual',
             'string' => 'O campo :attribute deve ser do tipo corda(string)',
             'saleValue.max_digits' => 'O campo :attribute só pode ter no maxímo 10 casas',
             'saleValue.numeric' => 'O campo :attribute só pode ser do tipo corda(string) inteiras',
@@ -56,16 +56,15 @@ class CreateSaleRequest extends FormRequest
         return $saleFactory->getSale(
             id: null,
             userId: auth()->user()->id,
-            pointOfSaleId: null,
+            pointOfSaleId: auth()->user()->point_of_sale_id,
             nearPointOfSaleId: null,
             saleValues: $this->input('saleValue'),
             date: $this->input('date'),
             hour: $this->input('hour'),
-            kmPointOfSaleMain: null,
             kmNearPointOfSale: null,
             latitude: $this->input('latitude'),
             longitude: $this->input('longitude'),
-            isRoaming: null,
+            isRoaming: false,
             createdAt: 'now',
             updatedAt: 'now'
         );

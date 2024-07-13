@@ -21,7 +21,10 @@ class AuthController extends Controller
             $token = $this->authService->login($request->input('email'), $request->input('password'));
             return response()->json($token, JsonResponse::HTTP_OK);
         } catch(Exception $e) {
-            return response()->json(['error' => $e->getMessage()], $e->getCode());
+            return response()->json(
+                ['error' => $e->getMessage()],
+                $e->getCode() !== 0 ? $e->getCode() : JsonResponse::HTTP_UNPROCESSABLE_ENTITY
+            );
         }
     }
 

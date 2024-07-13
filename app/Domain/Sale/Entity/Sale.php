@@ -19,8 +19,7 @@ class Sale implements JsonSerializable
         private string $saleValues,
         private CreatedAt $date,
         private string $hour,
-        private ?int $kmPointOfSaleMain,
-        private ?int $kmNearPointOfSale,
+        private ?string $kmNearPointOfSale,
         private string $latitude,
         private string $longitude,
         private ?bool $isRoaming,
@@ -63,12 +62,7 @@ class Sale implements JsonSerializable
         return $this->hour;
     }
 
-    public function getKmPointOfSaleMain(): ?int
-    {
-        return $this->kmPointOfSaleMain;
-    }
-
-    public function getKmNearPointOfSale(): ?int
+    public function getKmNearPointOfSale(): ?string
     {
         return $this->kmNearPointOfSale;
     }
@@ -106,15 +100,14 @@ class Sale implements JsonSerializable
             'pointOfSaleId' => $this->getPointOfSaleId()->get(),
             'nearPointOfSaleId' => $this->getNearPointOfSaleId()->get(),
             'saleValues' => $this->getSaleValues(),
-            'date' => $this->getDate()->toData(),
+            'date' => $this->getDate()->toDate(),
             'hour' => $this->getHour(),
-            'kmPointOfSaleMain' => $this->getKmPointOfSaleMain(),
             'kmNearPointOfSale' => $this->getKmNearPointOfSale(),
             'latitude' => $this->getLatitude(),
             'longitude' => $this->getLongitude(),
             'isRoaming' => $this->getIsRoaming(),
-            'createdAt' => $this->getCreatedAt()->toDataBase(),
-            'updatedAt' => $this->getUpdatedAt()->toDataBase(),
+            'createdAt' => $this->getCreatedAt()->toDateBase(),
+            'updatedAt' => $this->getUpdatedAt()->toDateBase(),
         ];
     }
 }

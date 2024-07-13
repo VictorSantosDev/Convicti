@@ -42,8 +42,8 @@ class Rule implements JsonSerializable
         return [
             'id' => $this->getId()->get(),
             'type' => $this->getType()->value,
-            'created_at' => $this->getCreatedAt()->toDataBase(),
-            'updated_at' => $this->getUpdatedAt()->toDataBase()
+            'created_at' => $this->getCreatedAt()->toDateBase(),
+            'updated_at' => $this->getUpdatedAt()->toDateBase()
         ];
     }
 }

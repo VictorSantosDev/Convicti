@@ -9,18 +9,18 @@ use App\ModelRoute\Composite\Entity\RouteIdentifier;
 use App\ModelRoute\Composite\Route\RouteComposed;
 use App\ModelRoute\Factories\Factory\RouteIdentifierFactory;
 use App\ModelRoute\Composite\Route\RouteLeaf;
-use App\ValuesObjects\Id;
 
 class RouteService
 {
     /** @param PointOfSale[] $pointOfSaleCollection */
     public function nearRouteByPointOfSale(
         array $pointOfSaleCollection,
-
-    ) {
+        string $latitude,
+        string $longitude
+    ): RouteIdentifier {
         $routeComposed = new RouteComposed();
-        $routeComposed->setLatitude('-23.6862475');
-        $routeComposed->setLongitude('-46.5962964');
+        $routeComposed->setLatitude($latitude);
+        $routeComposed->setLongitude($longitude);
 
         foreach ($pointOfSaleCollection as $pointOfSale) {
             $routeIdentifierFactory = new RouteIdentifierFactory;
@@ -34,6 +34,6 @@ class RouteService
             $routeComposed->add($route);
         }
 
-        dd($routeComposed->getNearRoute());
+        return $routeComposed->getNearRoute();
     }
 }

@@ -11,9 +11,13 @@ class RouteLeaf extends RouteComponent
 {
     public function __construct(private RouteIdentifier $routeIdentifier) {}
 
-    public function getNearRoute(): RouteIdentifier
+    public function setDistance(?string $distance): void
     {
-        parent::getNearRoute();
-        dd('ok');
+        $this->routeIdentifier->setDistanceByPoint($distance);
+    }
+
+    public function getRouteIdentifier(): RouteIdentifier
+    {
+        return $this->routeIdentifier;
     }
 }

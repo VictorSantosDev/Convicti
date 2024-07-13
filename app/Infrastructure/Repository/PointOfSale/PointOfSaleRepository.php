@@ -8,6 +8,8 @@ use App\Models\PointOfSale as Model;
 use App\Domain\PointOfSale\Entity\PointOfSale;
 use App\Domain\PointOfSale\Factories\Factory\PointOfSaleFactory;
 use App\Domain\PointOfSale\Infrastructure\Repository\PointOfSaleRepositoryInterface;
+use App\ValuesObjects\Id;
+use Exception;
 
 class PointOfSaleRepository implements PointOfSaleRepositoryInterface
 {
@@ -32,5 +34,30 @@ class PointOfSaleRepository implements PointOfSaleRepositoryInterface
         });
 
         return $pointOfSalesCollection->toArray();
+    }
+
+    public function findById(Id $id): PointOfSale
+    {
+        $row = $this->db::where('id', $id->get())->first();
+
+        if (!$row) {
+            throw new Exception('Ponto de venda não encontrado.');
+        }
+
+        return $this->pointOfSaleFactory($row);
+    }
+
+    private function pointOfSaleFactory(Model $row): PointOfSale 
+    {
+        $pointOfSaleFactory = new PointOfSaleFactory;
+        return $pointOfSaleFactory->getPointOfSale(
+            id: $row->id,
+            boardId: $row->board_id,
+            name: $row->name,
+            latitude: $row->latitude,
+            longitude: $row->longitude,
+            createdAt: $row->created_at?->format('Y-m-d H:i:s'),
+            updatedAt: $row->updated_at?->format('Y-m-d H:i:s')
+        );
     }
 }

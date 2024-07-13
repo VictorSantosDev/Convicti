@@ -11,6 +11,4 @@ abstract class RouteComponent
     public function add(RouteComponent ...$route): self {
         return $this;
     }
-
-    abstract function getNearRoute(): RouteIdentifier;
 }

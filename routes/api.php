@@ -26,5 +26,7 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('sale')->middleware('auth')->group(function () {
         Route::post('/create', [SaleController::class, 'createAction'])->name('create-sale');
+        Route::get('/show/{id}', [SaleController::class, 'showAction'])->name('show-sale');
+        Route::get('/list', [SaleController::class, 'listAction'])->name('list-sale');
     });
 });

@@ -6,6 +6,7 @@ namespace App\Domain\PointOfSale\Services;
 
 use App\Domain\PointOfSale\Entity\PointOfSale;
 use App\Domain\PointOfSale\Infrastructure\Repository\PointOfSaleRepositoryInterface;
+use App\ValuesObjects\Id;
 
 class PointOfSaleService
 {
@@ -17,5 +18,10 @@ class PointOfSaleService
     public function getAllPointOfSales(): array
     {
         return $this->pointOfSaleRepository->getAllPointOfSales();
+    }
+
+    public function findById(Id $id): PointOfSale
+    {
+        return $this->pointOfSaleRepository->findById($id);
     }
 }

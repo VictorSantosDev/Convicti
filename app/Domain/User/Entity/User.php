@@ -82,10 +82,10 @@ class User implements JsonSerializable
             'pointOfSaleId' => $this->getPointOfSaleId()->get(),
             'name' => $this->getName(),
             'email' => $this->getEmail(),
-            'emailVerifiedAt' => $this->getEmailVerifiedAt()->toDataBase(),
+            'emailVerifiedAt' => $this->getEmailVerifiedAt()->toDateBase(),
             'rememberToken' => $this->getRememberToken(),
-            'createdAt' => $this->getCreatedAt()->toDataBase(),
-            'updatedAt' => $this->getUpdatedAt()->toDataBase(),
+            'createdAt' => $this->getCreatedAt()->toDateBase(),
+            'updatedAt' => $this->getUpdatedAt()->toDateBase(),
         ];
     }
 }

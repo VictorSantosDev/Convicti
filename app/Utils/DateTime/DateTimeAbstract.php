@@ -18,12 +18,12 @@ abstract class DateTimeAbstract implements JsonSerializable
         $this->datetime = $date ? new DateTime($date) : null;
     }
 
-    public function toDataBase(): ?string
+    public function toDateBase(): ?string
     {
         return $this->dateTime()?->format('Y-m-d H:i:s');
     }
 
-    public function toData(): ?string
+    public function toDate(): ?string
     {
         return $this->dateTime()?->format('Y-m-d');
     }

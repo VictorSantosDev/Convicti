@@ -24,25 +24,53 @@ class RouteComposed extends RouteComponent
 
     public function getNearRoute(): RouteIdentifier
     {
-        Distance::calculate(
-            latitudeTo: $this->latitudeImmutable,
-            longitudeTo: $this->longitudeImmutable,
-            latitudeFrom: '-23.6862475',
-            longitudeFrom: '-46.5962964',
-        );
-    
-        dd($this->latitudeImmutable, $this->longitudeImmutable);
+        /** @var RouteLeaf $route */
+        foreach ($this->routesCollection as $route) {
+            $router = $route->getRouteIdentifier();
+
+            $kms = Distance::calculate(
+                latitudeTo: $this->latitudeImmutable,
+                longitudeTo: $this->longitudeImmutable,
+                latitudeFrom: $router->getLatitude(),
+                longitudeFrom: $router->getLongitude(),
+            );
+
+            $route->setDistance($kms);
+        }
+
+        usort($this->routesCollection, function ($routeCurrent, $routeNext) {
+            $routerIdentifieCurrent = $routeCurrent->getRouteIdentifier();
+            $routerIdentifieNext = $routeNext->getRouteIdentifier();
+
+            if (
+                is_null($routerIdentifieCurrent->getDistanceByPoint()) || 
+                is_null($routerIdentifieNext->getDistanceByPoint())
+            ) {
+                return 0;
+            }
+
+            if (
+                $routerIdentifieCurrent->getDistanceByPoint() == $routerIdentifieNext->getDistanceByPoint()
+            ) {
+                return 0;
+            }
+
+            return ($routerIdentifieCurrent->getDistanceByPoint() < $routerIdentifieNext->getDistanceByPoint()) ? -1 : 1;
+        });
+
+        /** @var RouteLeaf $routerLeaf */
+        $routerLeaf = array_shift($this->routesCollection);
+
+        return $routerLeaf->getRouteIdentifier();
     }
 
-    public function setLatitude(string $latitude): self
+    public function setLatitude(string $latitude): void
     {
         $this->latitudeImmutable = $latitude;
-        return $this;
     }
 
-    public function setLongitude(string $longitude): self
+    public function setLongitude(string $longitude): void
     {
         $this->longitudeImmutable = $longitude;
-        return $this;
     }
 }

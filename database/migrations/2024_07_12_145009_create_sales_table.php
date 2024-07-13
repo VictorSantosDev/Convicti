@@ -19,8 +19,7 @@ return new class extends Migration
             $table->string('sale_values', 10);
             $table->date('date');
             $table->time('hour');
-            $table->integer('km_point_of_sale_main');
-            $table->integer('km_near_point_of_sale');
+            $table->string('km_near_point_of_sale')->nullable();
             $table->string('latitude', 30);
             $table->string('longitude', 30);
             $table->boolean('is_roaming')->default(0);

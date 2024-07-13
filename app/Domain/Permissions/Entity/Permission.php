@@ -55,8 +55,8 @@ class Permission implements JsonSerializable
             'type' => $this->getType(),
             'name' => $this->getName(),
             'description' => $this->getDescription(),
-            'created_at' => $this->getCreatedAt()->toDataBase(),
-            'updated_at' => $this->getUpdatedAt()->toDataBase(),
+            'created_at' => $this->getCreatedAt()->toDateBase(),
+            'updated_at' => $this->getUpdatedAt()->toDateBase(),
         ];
     }
 }

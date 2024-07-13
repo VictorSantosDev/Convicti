@@ -170,6 +170,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\Rules\RulesProvider::class,
         App\Providers\PointOfSale\PointOfSaleProvider::class,
+        App\Providers\Sale\SaleServiceProvider::class,
     ])->toArray(),
 
     /*
