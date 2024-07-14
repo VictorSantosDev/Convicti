@@ -5,6 +5,7 @@ namespace App\Domain\Sale\Services;
 use App\Domain\PointOfSale\Entity\PointOfSale;
 use App\Domain\PointOfSale\Services\PointOfSaleService;
 use App\Domain\Route\Services\RouteService;
+use App\Domain\Rules\Entity\Rule;
 use App\Domain\Rules\Services\RulesServices;
 use App\Domain\Sale\Entity\Sale;
 use App\Domain\Sale\Factories\Factory\SaleFactory;
@@ -13,6 +14,7 @@ use App\Domain\Sale\Infrastructure\Repository\SaleRepositoryInterface;
 use App\Enum\Rules\TypeRule;
 use App\ModelRoute\Composite\Entity\RouteIdentifier;
 use App\ValuesObjects\Id;
+use Exception;
 
 class SaleService
 {
@@ -43,11 +45,13 @@ class SaleService
             TypeRule::tryFrom($rule->getType()->value)
         );
 
-        $pointOfSale = $this->pointOfSaleService->findById($sale->getPointOfSaleId());
+        $pointOfSaleMain = $this->pointOfSaleService->findById($sale->getPointOfSaleId());
+        $pointOfSaleNear = $this->pointOfSaleService->findByIdTryFrom($sale->getNearPointOfSaleId());
 
         return [
             'sale' => $sale->jsonSerialize(),
-            'pointOfSale' => $pointOfSale->jsonSerialize()
+            'pointOfSaleMain' => $pointOfSaleMain->jsonSerialize(),
+            'pointOfSaleNear' => $pointOfSaleNear?->jsonSerialize()
         ];
     }
 
@@ -56,16 +60,29 @@ class SaleService
         $user = auth()->user();
         $rule = $this->rulesServices->findByRule(Id::set($user->rule_id));
 
+        $this->validateToList($user, $filter, $rule);
+
         $salesCollection = $this->saleRepository->findAllWithFilter(
             $filter['dateInitial'],
             $filter['dateFinal'],
-            Id::set($filter['userId']),
-            Id::set($filter['pointOfSaleId']),
-            Id::set($filter['boardId']),
-            TypeRule::tryFrom($rule->getType()->value)
+            Id::set($filter['userId'] ?? null),
+            Id::set($filter['pointOfSaleId'] ?? null),
+            Id::set($filter['boardId'] ?? null),
+            $rule->getType()
         );
 
-        dd($salesCollection);
+        return $salesCollection;
+    }
+
+    private function validateToList(
+        \App\Models\User $user,
+        array $filter,
+        Rule $rule
+    ): void {
+        if (TypeRule::SELLER->value === $rule->getType()->value) {
+            if (($filter['userId'] ?? null) != $user->id) 
+                throw new Exception('Venda não pertence a esse usuário');
+        }
     }
 
     /** @param PointOfSale[] $pointOfSalesCollection */

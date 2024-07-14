@@ -24,4 +24,9 @@ class PointOfSaleService
     {
         return $this->pointOfSaleRepository->findById($id);
     }
+
+    public function findByIdTryFrom(Id $id): ?PointOfSale
+    {
+        return $this->pointOfSaleRepository->findByIdTryFrom($id);
+    }
 }

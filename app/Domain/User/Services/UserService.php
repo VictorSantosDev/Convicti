@@ -12,6 +12,11 @@ class UserService
 {
     public function __construct(private UserRepositoryInterface $userRepository) {}
 
+    public function list()
+    {
+
+    }
+
     public function findById(Id $id): User
     {
         return $this->findById($id);

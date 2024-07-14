@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Sale\SaleController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,5 +29,9 @@ Route::prefix('v1')->group(function () {
         Route::post('/create', [SaleController::class, 'createAction'])->name('create-sale');
         Route::get('/show/{id}', [SaleController::class, 'showAction'])->name('show-sale');
         Route::get('/list', [SaleController::class, 'listAction'])->name('list-sale');
+    });
+
+    Route::prefix('user')->middleware('auth')->group(function () {
+        Route::post('/list', [UserController::class, 'listAction'])->name('list-user');
     });
 });

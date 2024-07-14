@@ -71,29 +71,45 @@ class SaleRepository implements SaleRepositoryInterface
         TypeRule $type
     ): array {
         $row = DB::table('sales as s')
-        ->select(['s.*']);
+        ->select([
+            's.*',
+            'u.name as name_user',
+            'pts.name as name_point_of_sale',
+            'b.name_board',
+        ])
+        ->join('point_of_sale as pts', 's.point_of_sale_id', '=', 'pts.id')
+        ->join('users as u', 's.user_id', '=', 'u.id')
+        ->join('board as b', 'pts.board_id', '=', 'b.id');
 
         if (TypeRule::SELLER->value === $type->value) {
             $row = $row->where('s.user_id', $userId->get());
         }
-        
+
         if (TypeRule::MANAGE->value === $type->value) {
-            $row = $row->join('point_of_sale as pts', 's.point_of_sale_id', '=', 'pts.id')
-            ->join('users as u', 'pts.id', '=', 'u.point_of_sale_id')
-            ->where('u.id', $userId->get());
+            $row = $row->where('u.id', $userId->get())
+                ->where('pts.id', auth()->user()->point_of_sale_id);
         }
 
         if (TypeRule::BOARD->value === $type->value) {
-            $row = $row->join('point_of_sale as pts', 's.point_of_sale_id', '=', 'pts.id')
-            ->join('board as b', 'pts.board_id', '=', 'b.id')
-            ->where('b.user_id', $userId->get());
+            $row = $row->where('b.user_id', auth()->user()->id);
+
+            if ($userId->get()) $row = $row->where('s.user_id', $userId->get());
+
+            if ($pointOfSaleId->get()) $row = $row->where('pts.id', $pointOfSaleId->get());
+        }
+
+        if (TypeRule::GENERAL_BOARD->value === $type->value) {
+            if ($userId->get()) $row = $row->where('s.user_id', $userId->get());
+
+            if ($pointOfSaleId->get()) $row = $row->where('pts.id', $pointOfSaleId->get());
+
+            if ($boardId->get()) $row = $row->where('b.id', $boardId->get());
         }
 
         if (!$row) {
             throw new Exception('Venda não encontrada');
         }
 
-        dd($row->toSql());
-        dd($row->get()->toArray());
+        return $row->paginate()->toArray();
     }
 }

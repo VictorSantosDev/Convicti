@@ -47,6 +47,17 @@ class PointOfSaleRepository implements PointOfSaleRepositoryInterface
         return $this->pointOfSaleFactory($row);
     }
 
+    public function findByIdTryFrom(Id $id): ?PointOfSale
+    {
+        $row = $this->db::where('id', $id->get())->first();
+
+        if (!$row) {
+            return null;
+        }
+
+        return $this->pointOfSaleFactory($row);
+    }
+
     private function pointOfSaleFactory(Model $row): PointOfSale 
     {
         $pointOfSaleFactory = new PointOfSaleFactory;

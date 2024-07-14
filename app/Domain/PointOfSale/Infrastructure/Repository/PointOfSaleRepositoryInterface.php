@@ -13,4 +13,6 @@ interface PointOfSaleRepositoryInterface
     public function getAllPointOfSales(): array;
 
     public function findById(Id $id): PointOfSale;
+
+    public function findByIdTryFrom(Id $id): ?PointOfSale;
 }
