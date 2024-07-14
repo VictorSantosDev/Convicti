@@ -29,4 +29,12 @@ class PointOfSaleService
     {
         return $this->pointOfSaleRepository->findByIdTryFrom($id);
     }
+
+    public function list(?string $name, int $limit): array
+    {
+        return $this->pointOfSaleRepository->findAllWithFilter(
+            $name,
+            $limit
+        );
+    }
 }

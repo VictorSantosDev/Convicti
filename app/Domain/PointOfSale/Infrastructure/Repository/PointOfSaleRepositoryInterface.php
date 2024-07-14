@@ -15,4 +15,6 @@ interface PointOfSaleRepositoryInterface
     public function findById(Id $id): PointOfSale;
 
     public function findByIdTryFrom(Id $id): ?PointOfSale;
+
+    public function findAllWithFilter(?string $name, int $limit): array;
 }

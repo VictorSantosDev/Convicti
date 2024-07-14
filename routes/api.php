@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Board\BoardController;
+use App\Http\Controllers\PointOfSale\PointOfSaleController;
 use App\Http\Controllers\Sale\SaleController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
@@ -32,6 +34,14 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::prefix('user')->middleware('auth')->group(function () {
-        Route::post('/list', [UserController::class, 'listAction'])->name('list-user');
+        Route::get('/list', [UserController::class, 'listAction'])->name('list-user');
+    });
+
+    Route::prefix('point-of-sale')->middleware('auth')->group(function () {
+        Route::get('/list', [PointOfSaleController::class, 'listAction'])->name('list-user');
+    });
+
+    Route::prefix('board')->middleware('auth')->group(function () {
+        Route::get('/list', [BoardController::class, 'listAction'])->name('list-user');
     });
 });

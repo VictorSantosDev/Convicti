@@ -171,6 +171,8 @@ return [
         App\Providers\Rules\RulesProvider::class,
         App\Providers\PointOfSale\PointOfSaleProvider::class,
         App\Providers\Sale\SaleServiceProvider::class,
+        App\Providers\User\UserServiceProvider::class,
+        App\Providers\Board\BoardServiceProvider::class,
     ])->toArray(),
 
     /*

@@ -58,6 +58,12 @@ class PointOfSaleRepository implements PointOfSaleRepositoryInterface
         return $this->pointOfSaleFactory($row);
     }
 
+    public function findAllWithFilter(?string $name, int $limit): array
+    {
+        $row = $this->db::where('name', 'LIKE', "$name%");
+        return $row->paginate($limit)->toArray();
+    }
+
     private function pointOfSaleFactory(Model $row): PointOfSale 
     {
         $pointOfSaleFactory = new PointOfSaleFactory;

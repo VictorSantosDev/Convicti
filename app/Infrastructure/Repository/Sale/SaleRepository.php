@@ -110,6 +110,8 @@ class SaleRepository implements SaleRepositoryInterface
             throw new Exception('Venda não encontrada');
         }
 
+        $row = $row->whereBetween('s.created_at', ["$dateInitial 00:00:00", "$dateFinal 23:59:59"]);
+
         return $row->paginate()->toArray();
     }
 }
