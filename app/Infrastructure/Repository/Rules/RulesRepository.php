@@ -33,8 +33,8 @@ class RulesRepository implements RulesRepositoryInterface
                 type: $item->type,
                 name: $item->name,
                 description: $item->description,
-                createdAt: $item->created_at?->format('Y-m-d H:i:s'),
-                updatedAt: $item->updated_at?->format('Y-m-d H:i:s')
+                createdAt: $item->created_at,
+                updatedAt: $item->updated_at
             )->getType();
         });
 
