@@ -24,7 +24,6 @@ class BoardController extends Controller
             );
             return response()->json($output, JsonResponse::HTTP_OK);
         } catch(Exception $e) {
-            dd($e->getMessage());
             return response()->json(
                 ['error' => $e->getMessage()],
                 $e->getCode() !== 0 ? $e->getCode() : JsonResponse::HTTP_UNPROCESSABLE_ENTITY

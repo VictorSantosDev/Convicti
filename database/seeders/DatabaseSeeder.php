@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use Database\Seeders\Board\BoardSeeder;
 use Database\Seeders\PointOfSale\PointOfSaleSeeder;
+use Database\Seeders\RuleHasPermission\JoinRulesWithPermission;
 use Database\Seeders\Rules\RulesSeeder;
 use Database\Seeders\Users\JoinUserWithPointOfSaleSeeder;
 use Database\Seeders\Users\UsersSeeder;
@@ -19,11 +20,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            RulesSeeder::class,
-            UsersSeeder::class,
-            BoardSeeder::class,
-            PointOfSaleSeeder::class,
-            JoinUserWithPointOfSaleSeeder::class,
+            // RulesSeeder::class,
+            // UsersSeeder::class,
+            // BoardSeeder::class,
+            // PointOfSaleSeeder::class,
+            // JoinUserWithPointOfSaleSeeder::class,
+            JoinRulesWithPermission::class
         ]);
     }
 }
