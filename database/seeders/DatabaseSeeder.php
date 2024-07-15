@@ -20,11 +20,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            // RulesSeeder::class,
-            // UsersSeeder::class,
-            // BoardSeeder::class,
-            // PointOfSaleSeeder::class,
-            // JoinUserWithPointOfSaleSeeder::class,
+            RulesSeeder::class,
+            UsersSeeder::class,
+            BoardSeeder::class,
+            PointOfSaleSeeder::class,
+            JoinUserWithPointOfSaleSeeder::class,
             JoinRulesWithPermission::class
         ]);
     }
