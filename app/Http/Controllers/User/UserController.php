@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\ListRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {

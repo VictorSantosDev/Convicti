@@ -6,6 +6,7 @@ namespace App\Http\Requests\Sale;
 
 use App\Domain\Sale\Entity\Sale;
 use App\Domain\Sale\Factories\Factory\SaleFactory;
+use App\Utils\Permission\CanAccess;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -15,7 +16,7 @@ class CreateSaleRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return true; // create_sale
+        return CanAccess::check('create_sale');
     }
 
     public function rules(): array

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\PointOfSale;
 
+use App\Utils\Permission\CanAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ListRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // list_point_of_sale
+        return CanAccess::check('list_point_of_sale');
     }
 
     public function rules(): array

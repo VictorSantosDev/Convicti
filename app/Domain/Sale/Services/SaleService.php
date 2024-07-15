@@ -81,7 +81,7 @@ class SaleService
     ): void {
         if (TypeRule::SELLER->value === $rule->getType()->value) {
             if (($filter['userId'] ?? null) != $user->id) 
-                throw new Exception('Venda não pertence a esse usuário');
+                throw new Exception('Venda não pertence a esse usuário ou identificador não relacionado');
         }
     }
 

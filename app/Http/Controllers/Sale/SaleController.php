@@ -6,9 +6,9 @@ use App\Domain\Sale\Services\SaleService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sale\CreateSaleRequest;
 use App\Http\Requests\Sale\ListSaleRequest;
+use App\Http\Requests\Sale\ShowSaleRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class SaleController extends Controller
 {
@@ -27,7 +27,7 @@ class SaleController extends Controller
         }
     }
 
-    public function showAction(int $id): JsonResponse
+    public function showAction(ShowSaleRequest $request, int $id): JsonResponse
     {
         try{
             $output = $this->saleService->show($id);

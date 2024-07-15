@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Sale;
 
+use App\Utils\Permission\CanAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ListSaleRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // list_sale
+        return CanAccess::check('list_sale');
     }
 
     public function rules(): array

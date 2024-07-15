@@ -173,6 +173,7 @@ return [
         App\Providers\Sale\SaleServiceProvider::class,
         App\Providers\User\UserServiceProvider::class,
         App\Providers\Board\BoardServiceProvider::class,
+        App\Providers\Permissions\PermissionsServiceProvider::class,
     ])->toArray(),
 
     /*
