@@ -36,7 +36,17 @@ class UserRepository implements UserRepositoryInterface
         ?int $limit
     ): array {
         $row = DB::table('users as u')
-        ->select(['u.*'])
+        ->select([
+            'u.id',
+            'u.rule_id',
+            'u.point_of_sale_id',
+            'u.name',
+            'u.email',
+            'u.email_verified_at',
+            'u.remember_token',
+            'u.created_at',
+            'u.updated_at',
+        ])
         ->join('rules as r', 'u.rule_id', '=', 'r.id')
         ->join('point_of_sale as pts', 'u.point_of_sale_id', '=', 'pts.id');
 

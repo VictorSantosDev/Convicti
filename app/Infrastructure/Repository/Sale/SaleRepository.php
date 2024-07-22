@@ -86,8 +86,8 @@ class SaleRepository implements SaleRepositoryInterface
         }
 
         if (TypeRule::MANAGE->value === $type->value) {
-            $row = $row->where('u.id', $userId->get())
-                ->where('pts.id', auth()->user()->point_of_sale_id);
+            if($userId->get()) $row = $row->where('u.id', $userId->get());
+            $row = $row->where('pts.id', auth()->user()->point_of_sale_id);
         }
 
         if (TypeRule::BOARD->value === $type->value) {

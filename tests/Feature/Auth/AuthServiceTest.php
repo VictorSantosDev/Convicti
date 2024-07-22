@@ -1,29 +1,12 @@
 <?php
 
-namespace Tests\Feature\Auth\Services;
+namespace Tests\Feature\Auth;
 
 use App\Enum\Rules\TypeRule;
-use Database\Seeders\Board\BoardSeeder;
-use Database\Seeders\PointOfSale\PointOfSaleSeeder;
-use Database\Seeders\Rules\RulesSeeder;
-use Database\Seeders\Users\JoinUserWithPointOfSaleSeeder;
-use Database\Seeders\Users\UsersSeeder;
 use Tests\TestCase;
 
 class AuthServiceTest extends TestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->seed([
-            RulesSeeder::class,
-            UsersSeeder::class,
-            BoardSeeder::class,
-            PointOfSaleSeeder::class,
-            JoinUserWithPointOfSaleSeeder::class,
-        ]);
-    }
-
     public function testShouldLoginUserWithSuccess(): void
     {
         $response = $this->post('/api/v1/auth/login', [
