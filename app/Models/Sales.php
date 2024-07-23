@@ -17,8 +17,6 @@ class Sales extends Model
         'point_of_sale_id',
         'near_point_of_sale_id',
         'sale_values',
-        'date',
-        'hour',
         'km_near_point_of_sale',
         'latitude',
         'longitude',

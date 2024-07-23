@@ -17,8 +17,6 @@ class Sale implements JsonSerializable
         private Id $pointOfSaleId,
         private Id $nearPointOfSaleId,
         private string $saleValues,
-        private CreatedAt $date,
-        private string $hour,
         private ?string $kmNearPointOfSale,
         private string $latitude,
         private string $longitude,
@@ -50,16 +48,6 @@ class Sale implements JsonSerializable
     public function getSaleValues(): string
     {
         return $this->saleValues;
-    }
-
-    public function getDate(): CreatedAt
-    {
-        return $this->date;
-    }
-
-    public function getHour(): string
-    {
-        return $this->hour;
     }
 
     public function getKmNearPointOfSale(): ?string
@@ -100,8 +88,6 @@ class Sale implements JsonSerializable
             'pointOfSaleId' => $this->getPointOfSaleId()->get(),
             'nearPointOfSaleId' => $this->getNearPointOfSaleId()->get(),
             'saleValues' => $this->getSaleValues(),
-            'date' => $this->getDate()->toDate(),
-            'hour' => $this->getHour(),
             'kmNearPointOfSale' => $this->getKmNearPointOfSale(),
             'latitude' => $this->getLatitude(),
             'longitude' => $this->getLongitude(),

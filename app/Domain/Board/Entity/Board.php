@@ -2,21 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\PointOfSale\Entity;
+namespace App\Domain\Board\Entity;
 
 use App\Utils\DateTime\CreatedAt;
 use App\Utils\DateTime\UpdatedAt;
 use App\ValuesObjects\Id;
 use JsonSerializable;
 
-class PointOfSale implements JsonSerializable
+class Board implements JsonSerializable
 {
     public function __construct(
         private Id $id,
-        private Id $boardId,
-        private string $name,
-        private string $latitude,
-        private string $longitude,
+        private Id $userId,
+        private string $nameBoard,
         private CreatedAt $createdAt,
         private UpdatedAt $updatedAt
     ) {}
@@ -26,24 +24,14 @@ class PointOfSale implements JsonSerializable
         return $this->id;
     }
 
-    public function getBoardId(): Id
+    public function getUserId(): Id
     {
-        return $this->boardId;
+        return $this->userId;
     }
 
-    public function getName(): string
+    public function getNameBoard(): string
     {
-        return $this->name;
-    }
-
-    public function getLatitude(): string
-    {
-        return $this->latitude;
-    }
-
-    public function getLongitude(): string
-    {
-        return $this->longitude;
+        return $this->nameBoard;
     }
 
     public function getCreatedAt(): CreatedAt
@@ -56,14 +44,12 @@ class PointOfSale implements JsonSerializable
         return $this->updatedAt;
     }
 
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
         return [
             'id' => $this->getId()->get(),
-            'boardId' => $this->getBoardId()->get(),
-            'name' => $this->getName(),
-            'latitude' => $this->getLatitude(),
-            'longitude' => $this->getLongitude(),
+            'userId' => $this->getUserId()->get(),
+            'nameBoard' => $this->getNameBoard(),
             'createdAt' => $this->getCreatedAt()->toDateBase(),
             'updatedAt' => $this->getUpdatedAt()->toDateBase(),
         ];

@@ -23,16 +23,6 @@ class CreateSaleRequest extends FormRequest
     {
         return [
             'saleValue' => 'required|numeric|string|max_digits:10|min:1',
-            'date' => 'required|string|date|after:yesterday',
-            'hour' => [
-                'required',
-                'string',
-                function (string $attribute, mixed $value, Closure $fail) {
-                    if (!preg_match(self::REGEX_HOUR, $value)) {
-                        $fail("O campo $attribute está com a hora superior ou formatado de forma inválida");
-                    }
-                },
-            ],
             'latitude' => 'required|string',
             'longitude' => 'required|string',
         ];
@@ -42,8 +32,6 @@ class CreateSaleRequest extends FormRequest
     {
         return [
             'required' => 'O campo :attribute é obrigatório',
-            'date' => 'O campo :attribute está com formato de data inválido',
-            'date.after' => 'O campo :attribute não pode ter uma data inferior a data atual',
             'string' => 'O campo :attribute deve ser do tipo corda(string)',
             'saleValue.max_digits' => 'O campo :attribute só pode ter no maxímo 10 casas',
             'saleValue.numeric' => 'O campo :attribute só pode ser do tipo corda(string) inteiras',
@@ -60,8 +48,6 @@ class CreateSaleRequest extends FormRequest
             pointOfSaleId: auth()->user()->point_of_sale_id,
             nearPointOfSaleId: null,
             saleValues: $this->input('saleValue'),
-            date: $this->input('date'),
-            hour: $this->input('hour'),
             kmNearPointOfSale: null,
             latitude: $this->input('latitude'),
             longitude: $this->input('longitude'),

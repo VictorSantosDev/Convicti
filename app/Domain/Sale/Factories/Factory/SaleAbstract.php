@@ -14,8 +14,6 @@ abstract class SaleAbstract
         ?int $pointOfSaleId,
         ?int $nearPointOfSaleId,
         string $saleValues,
-        string $date,
-        string $hour,
         ?string $kmNearPointOfSale,
         string $latitude,
         string $longitude,

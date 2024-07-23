@@ -51,8 +51,6 @@ class SaleRepository implements SaleRepositoryInterface
             pointOfSaleId: $row->point_of_sale_id,
             nearPointOfSaleId: $row->near_point_of_sale_id,
             saleValues: $row->sale_values,
-            date: $row->date,
-            hour: $row->hour,
             kmNearPointOfSale: $row->km_near_point_of_sale,
             latitude: $row->latitude,
             longitude: $row->longitude,
@@ -86,8 +84,8 @@ class SaleRepository implements SaleRepositoryInterface
         }
 
         if (TypeRule::MANAGE->value === $type->value) {
-            $row = $row->where('u.id', $userId->get())
-                ->where('pts.id', auth()->user()->point_of_sale_id);
+            if($userId->get()) $row = $row->where('u.id', $userId->get());
+            $row = $row->where('pts.id', auth()->user()->point_of_sale_id);
         }
 
         if (TypeRule::BOARD->value === $type->value) {

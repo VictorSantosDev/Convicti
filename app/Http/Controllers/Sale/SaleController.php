@@ -30,7 +30,8 @@ class SaleController extends Controller
     public function showAction(ShowSaleRequest $request, int $id): JsonResponse
     {
         try{
-            $output = $this->saleService->show($id);
+            $user = auth()->user();
+            $output = $this->saleService->show($id, $user->id, $user->rule_id);
             return response()->json($output, JsonResponse::HTTP_OK);
         } catch(Exception $e) {
             return response()->json(
