@@ -43,7 +43,7 @@ class SaleEntity implements SaleEntityInterface
             kmNearPointOfSale: $row->km_near_point_of_sale,
             latitude: $row->latitude,
             longitude: $row->longitude,
-            isRoaming: $row->is_roaming === 1 ? true : false,
+            isRoaming: $row->is_roaming,
             createdAt: $row->created_at?->format('Y-m-d H:i:s'),
             updatedAt: $row->updated_at?->format('Y-m-d H:i:s')
         );

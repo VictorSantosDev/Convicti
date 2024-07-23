@@ -84,19 +84,6 @@ class SaleService
     }
 
     /** @param PointOfSale[] $pointOfSalesCollection */
-    private function handleNearPointOfSale(
-        array $pointOfSalesCollection,
-        string $latitude,
-        string $longitude
-    ): RouteIdentifier {
-        return $this->routeServices->nearRouteByPointOfSale(
-            $pointOfSalesCollection,
-            $latitude,
-            $longitude
-        );
-    }
-
-    /** @param PointOfSale[] $pointOfSalesCollection */
     private function saleMount(array $pointOfSalesCollection, Sale $sale): Sale
     {
         $isRoaming = false;
@@ -105,8 +92,7 @@ class SaleService
 
         $pointOfSale = $this->pointOfSaleService->findById($sale->getPointOfSaleId());
 
-        $nearPointOfSale = $this->handleNearPointOfSale(
-            $pointOfSalesCollection,
+        $nearPointOfSale = $this->pointOfSaleService->getNearPointOfSale(
             $sale->getLatitude(),
             $sale->getLongitude()
         );
