@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\PointOfSale\Infrastructure\Repository;
 
 use App\Domain\PointOfSale\Entity\PointOfSale;
+use App\ModelRoute\Composite\Entity\RouteIdentifier;
 use App\ValuesObjects\Id;
 
 interface PointOfSaleRepositoryInterface
@@ -26,4 +27,6 @@ interface PointOfSaleRepositoryInterface
         ?string $name,
         int $limit
     ): array;
+
+    public function getNearPointOfSale(string $latitude, string $longitude): ?RouteIdentifier;
 }

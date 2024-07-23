@@ -20,6 +20,7 @@ class SaleController extends Controller
             $output = $this->saleService->create($request->data());
             return response()->json($output->jsonSerialize(), JsonResponse::HTTP_OK);
         } catch(Exception $e) {
+            dd($e->getMessage());
             return response()->json(
                 ['error' => $e->getMessage()],
                 $e->getCode() !== 0 ? $e->getCode() : JsonResponse::HTTP_UNPROCESSABLE_ENTITY

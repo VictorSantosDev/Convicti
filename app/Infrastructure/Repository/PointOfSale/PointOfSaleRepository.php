@@ -8,11 +8,15 @@ use App\Models\PointOfSale as Model;
 use App\Domain\PointOfSale\Entity\PointOfSale;
 use App\Domain\PointOfSale\Factories\Factory\PointOfSaleFactory;
 use App\Domain\PointOfSale\Infrastructure\Repository\PointOfSaleRepositoryInterface;
+use App\ModelRoute\Composite\Entity\RouteIdentifier;
 use App\ValuesObjects\Id;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class PointOfSaleRepository implements PointOfSaleRepositoryInterface
 {
+    const RADIAN = 6371;
+
     public function __construct(private Model $db) {}
 
     /** @return PointOfSale[] */
@@ -73,6 +77,40 @@ class PointOfSaleRepository implements PointOfSaleRepositoryInterface
     ): array {
         $row = $this->db::where('board_id', $boardId->get())->where('name', 'LIKE', "$name%");
         return $row->paginate($limit)->toArray();
+    }
+
+    public function getNearPointOfSale(string $latitude, string $longitude): ?RouteIdentifier
+    {
+        $latitude = floatval($latitude);
+        $longitude = floatval($longitude);
+        $row = DB::table('point_of_sale')->selectRaw(
+            "point_of_sale.*,
+                (? * acos(
+                    cos( radians(?) )
+                    * cos( radians( latitude ) )
+                    * cos( radians( longitude ) - radians(?) )
+                    + sin( radians(?) )
+                    * sin( radians( latitude ) ) 
+                    )
+                ) AS distance"
+            , [self::RADIAN, $latitude, $longitude, $latitude]
+        )
+        ->havingRaw('distance < 25')
+        ->orderByRaw('distance ASC')
+        ->first();
+
+        if (!$row) {
+            return null;
+        }
+
+        $routeIdentifier = new RouteIdentifier(
+            Id::set($row->id),
+            $row->latitude, 
+            $row->longitude
+        );
+        $routeIdentifier->setDistanceByPoint($row->distance);
+
+        return $routeIdentifier;
     }
 
     private function pointOfSaleFactory(Model $row): PointOfSale 

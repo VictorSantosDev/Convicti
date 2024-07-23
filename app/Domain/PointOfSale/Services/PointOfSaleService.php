@@ -9,6 +9,7 @@ use App\Domain\PointOfSale\Entity\PointOfSale;
 use App\Domain\PointOfSale\Infrastructure\Repository\PointOfSaleRepositoryInterface;
 use App\Domain\Rules\Services\RulesServices;
 use App\Enum\Rules\TypeRule;
+use App\ModelRoute\Composite\Entity\RouteIdentifier;
 use App\ValuesObjects\Id;
 
 class PointOfSaleService
@@ -57,5 +58,10 @@ class PointOfSaleService
         }
 
         return [];
+    }
+
+    public function getNearPointOfSale(string $latitude, string $longitude): ?RouteIdentifier
+    {
+        return $this->pointOfSaleRepository->getNearPointOfSale($latitude, $longitude);
     }
 }
