@@ -51,8 +51,6 @@ class SaleRepository implements SaleRepositoryInterface
             pointOfSaleId: $row->point_of_sale_id,
             nearPointOfSaleId: $row->near_point_of_sale_id,
             saleValues: $row->sale_values,
-            date: $row->date,
-            hour: $row->hour,
             kmNearPointOfSale: $row->km_near_point_of_sale,
             latitude: $row->latitude,
             longitude: $row->longitude,

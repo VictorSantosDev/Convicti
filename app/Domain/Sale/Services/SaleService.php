@@ -33,15 +33,13 @@ class SaleService
         return $this->saleEntity->create($saleMounted);
     }
 
-    public function show(int $id): array
+    public function show(int $id, int $userId, int $ruleId): array
     {
-        $user = auth()->user();
-
-        $rule = $this->rulesServices->findByRule(Id::set($user->rule_id));
+        $rule = $this->rulesServices->findByRule(Id::set($ruleId));
 
         $sale = $this->saleRepository->findByIdByUserId(
             Id::set($id), 
-            Id::set($user->id),
+            Id::set($userId),
             TypeRule::tryFrom($rule->getType()->value)
         );
 
@@ -99,7 +97,7 @@ class SaleService
     }
 
     /** @param PointOfSale[] $pointOfSalesCollection */
-    public function saleMount(array $pointOfSalesCollection, Sale $sale): Sale
+    private function saleMount(array $pointOfSalesCollection, Sale $sale): Sale
     {
         $isRoaming = false;
         $nearPointOfSaleId = null;
@@ -127,8 +125,6 @@ class SaleService
             pointOfSaleId: $sale->getPointOfSaleId()->get(),
             nearPointOfSaleId: $nearPointOfSaleId,
             saleValues: $sale->getSaleValues(),
-            date: $sale->getDate()->toDate(),
-            hour: $sale->getHour(),
             kmNearPointOfSale: $kmNearPointOfSale,
             latitude: $sale->getLatitude(),
             longitude: $sale->getLongitude(),

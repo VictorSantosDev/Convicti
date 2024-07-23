@@ -55,5 +55,7 @@ class PointOfSaleService
                 $limit
             );
         }
+
+        return [];
     }
 }
